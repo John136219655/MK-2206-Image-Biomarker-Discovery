@@ -1,0 +1,5 @@
+,mean,sd,hdi_3%,hdi_97%,mcse_mean,mcse_sd,ess_bulk,ess_tail,r_hat
+interaction[HR_interaction],-0.27,0.51,-1.22,0.68,0.01,0.01,1913.96,2019.83,1.0
+interception,-1.13,0.24,-1.59,-0.71,0.01,0.0,2123.09,2274.0,1.0
+treatment[Treatment],1.07,0.36,0.41,1.74,0.01,0.01,2204.09,2530.67,1.0
+biomarker[HR],-0.72,0.35,-1.39,-0.07,0.01,0.01,2011.17,2267.5,1.0

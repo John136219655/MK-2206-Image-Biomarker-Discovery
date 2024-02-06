@@ -1,0 +1,5 @@
+,mean,sd,hdi_3%,hdi_97%,mcse_mean,mcse_sd,ess_bulk,ess_tail,r_hat
+interaction[GLCM_SS_interaction],1.77,0.5,0.87,2.72,0.01,0.01,1818.7,2604.22,1.0
+interception,-1.42,0.24,-1.91,-0.99,0.01,0.0,1597.85,2318.04,1.0
+treatment[Treatment],0.05,0.4,-0.67,0.84,0.01,0.01,1764.86,2572.77,1.0
+biomarker[GLCM_SS],-0.14,0.34,-0.77,0.51,0.01,0.01,1792.88,2338.41,1.0
