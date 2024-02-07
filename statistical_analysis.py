@@ -141,12 +141,12 @@ def bayesian_comparison(bayesian_export_directory, subtypes, qib_subtype, export
         p_value = [1-np.sum(Treatment_distribution > Control_distribution) / len(Treatment_distribution)]
         # p_value = [1-np.sum(Treatment_distribution > Control_distribution) / len(Treatment_distribution)]
         model_directory = os.path.join(bayesian_export_directory, 'models',)
-        success_rate = trail_simulation(Treatment_distribution, Control_distribution, export_directory, patient_number=300,
-                         name=subtype+'_treatment_vs_control_', random_draw_number=1000)
-        stats = pd.Series(Treatment_mean + Treatment_95CI + Control_mean + Control_95CI + p_value+[success_rate],
+        # success_rate = trail_simulation(Treatment_distribution, Control_distribution, export_directory, patient_number=300,
+        #                  name=subtype+'_treatment_vs_control_', random_draw_number=1000)
+        stats = pd.Series(Treatment_mean + Treatment_95CI + Control_mean + Control_95CI + p_value,
                           index = ['Treatment mean','Treatment CI lower','Treatment CI higher',
                                    'Control mean','Control CI lower','Control CI higher',
-                                   'p-value','Successful rate'], name = subtype)
+                                   'p-value'], name = subtype)
         stats_all.append(stats)
 
         if subtype == 'All':
@@ -165,25 +165,25 @@ def bayesian_comparison(bayesian_export_directory, subtypes, qib_subtype, export
         Control_mean = [np.mean(Control_distribution_qib)]
         Control_95CI = list(np.percentile(Control_distribution_qib, [2.5, 97.5]))
         # get the p-value of the comparison of two distributions
-        success_rate = trail_simulation(Treatment_distribution_qib, Control_distribution_qib, export_directory,
-                                        patient_number=300,
-                                        name=subtype + '_treatment_vs_control_', random_draw_number=1000)
+        # success_rate = trail_simulation(Treatment_distribution_qib, Control_distribution_qib, export_directory,
+        #                                 patient_number=300,
+        #                                 name=subtype + '_treatment_vs_control_', random_draw_number=1000)
         p_value = [
             1 - np.sum(Treatment_distribution_qib > (Control_distribution_qib)) / len(Treatment_distribution_qib)]
         # p_value = [1-np.sum(Treatment_distribution > Control_distribution) / len(Treatment_distribution)]
-        stats = pd.Series(Treatment_mean + Treatment_95CI + Control_mean + Control_95CI + p_value+[success_rate],
+        stats = pd.Series(Treatment_mean + Treatment_95CI + Control_mean + Control_95CI + p_value,
                           index=['Treatment mean', 'Treatment CI lower', 'Treatment CI higher',
                                  'Control mean', 'Control CI lower', 'Control CI higher',
-                                 'p-value', 'Successful rate'], name = new_subtype)
+                                 'p-value'], name = new_subtype)
         stats_all.append(stats)
 
-        success_rate = trail_simulation(Treatment_distribution_qib, Treatment_distribution, export_directory,
-                                        patient_number=300,
-                                        name=subtype + '_qib_treatment_', random_draw_number=1000)
+        # success_rate = trail_simulation(Treatment_distribution_qib, Treatment_distribution, export_directory,
+        #                                 patient_number=300,
+        #                                 name=subtype + '_qib_treatment_', random_draw_number=1000)
         p_value = 1 - np.sum(Treatment_distribution_qib > Treatment_distribution) / len(
             Treatment_distribution)
         treatment_p_values[subtype] = p_value
-        treatment_sc_rate[subtype] = success_rate
+        # treatment_sc_rate[subtype] = success_rate
 
         p_value = 1 - np.sum((Treatment_distribution_qib-Control_distribution_qib) > (Treatment_distribution-Control_distribution)) / len(
             Treatment_distribution)
@@ -191,8 +191,8 @@ def bayesian_comparison(bayesian_export_directory, subtypes, qib_subtype, export
     stats_all = pd.concat(stats_all, axis=1).T
     treatment_p_values = pd.Series(treatment_p_values, name = 'Treatment p-value')
     improvement_p_values = pd.Series(improvement_p_values, name = 'Improvement p-value')
-    treatment_sc_rate = pd.Series(treatment_sc_rate, name='Treatment successful rate')
-    stats_all = pd.concat([stats_all, treatment_p_values, improvement_p_values, treatment_sc_rate], axis=1)
+    # treatment_sc_rate = pd.Series(treatment_sc_rate, name='Treatment successful rate')
+    stats_all = pd.concat([stats_all, treatment_p_values, improvement_p_values], axis=1)
     stats_all.to_csv(os.path.join(export_directory, qib_subtype+'_bayesian_comparison_stats.csv'))
 
 

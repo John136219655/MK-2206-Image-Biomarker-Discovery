@@ -103,8 +103,20 @@ def logistic_regression_multivariate(feature_table, clinical_table, treatment, i
     # combined_results = pd.concat([univariate_results, multivariate_results], axis=1, keys=['Univariate','Multivariate'])
     # return combined_results
 
-def image_biomarker_discovery_pipeline(image_feature_table, clinical_feature_table, treatment, clinical_biomarkers,
+def image_biomarker_discovery_pipeline(feature_directory, treatment, clinical_biomarkers,
                                        outcome_title, export_directory, p_value_correction=True):
+
+    image_feature_table = pd.read_csv(os.path.join(feature_directory, 'image_features.csv'),
+                                      index_col=0)  # image feature table (csv) file
+    clinical_feature_table = pd.read_csv(os.path.join(feature_directory, 'clinical_features.csv'),
+                                         index_col=0)  # clinical feature table (csv) file
+
+    iccs = pd.read_csv(os.path.join(feature_directory, 'iccs.csv'), index_col=0)
+    iccs = iccs.query('Perturbation > 0.9 and Interphase > 0.7 and Interobserver > 0.7')
+    selected_features = iccs.index.intersection(image_feature_table.columns)
+    image_feature_table = image_feature_table[selected_features]
+
+
     # image_feature_table = (image_feature_table-image_feature_table.mean())/image_feature_table.std()
     p_values = {}
     clinical_feature_table_subset = clinical_feature_table[clinical_feature_table[treatment] == 1]
@@ -198,12 +210,12 @@ def image_biomarker_discovery_pipeline(image_feature_table, clinical_feature_tab
 
 if __name__ == '__main__':
     feature_directory = 'features' # directory of the folder holding all the features
-    image_feature_table = pd.read_csv(os.path.join(feature_directory, 'image_features.csv'), index_col=0) # image feature table (csv) file
-    clinical_feature_table = pd.read_csv(os.path.join(feature_directory, 'clinical_features.csv'), index_col=0) # clinical feature table (csv) file
+    # image_feature_table = pd.read_csv(os.path.join(feature_directory, 'image_features.csv'), index_col=0) # image feature table (csv) file
+    # clinical_feature_table = pd.read_csv(os.path.join(feature_directory, 'clinical_features.csv'), index_col=0) # clinical feature table (csv) file
     treatment = 'Treatment' # title of the treatment column in the clinical feature table
     clinical_biomarkers = ['HR','HER2','MP'] # list of clinical biomarkers in the clinical feature table used for independency testing
     outcome_title = 'pCR' # title of the treatment outcome column in the clinical feature table
     export_directory = "biomarker_discovery" # export directory of the biomarker discovery results
-    image_biomarker_discovery_pipeline(image_feature_table, clinical_feature_table, treatment, clinical_biomarkers,
-                                       outcome_title, export_directory, p_value_correction=False) # main function for biomarker discovery
+    image_biomarker_discovery_pipeline(feature_directory, treatment, clinical_biomarkers,
+                                       outcome_title, export_directory, p_value_correction=True) # main function for biomarker discovery
     # discovery_summary(export_directory)
