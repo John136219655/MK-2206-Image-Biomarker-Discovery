@@ -25,6 +25,10 @@ A demo image dataset was provided in the "demo_image_dataset" folder. All the im
 Each DCE-MRI image was named by the convention "DCE_MRIT0_Phase_n.mha" with n starting from 0 as the phase number. The FTV segmentation file has the name of "new_FTV_GLCM_SS_T0_mask.mha".
 Users can perform feature extraction by running the Python file "feature_extraction.py". The extracted feature values will be exported as a csv table named "image_features.csv" in "feature_extraction" folder.
 The complete radiomics feature table can be found in the "features" folder. The expted run time for the three-patient demo dataset is 5 minutes. The actual run time may vary depending on the hardware.
+
+This module also contains a small experiment that compare the selected imaging biomarker "log_sigma_3_mm_3D_glcm_SumSquares" between the extraction with and without image normalization.
+Another set of features were extracted based on a new parameter file "feature_extraction_parameters_with_normalization.yaml" that contains the settings for image normalization. A new feature table is generated and exported as "image_features_with_normalization.csv".
+Finally, the results show that the feature values are identical with and without image normalization.
 # Instructions for use
 ## Feature processing
 All the radiomics features were binarized by the median value. Users can run the "feature_processing.py" file to perform the feature binarization. 
