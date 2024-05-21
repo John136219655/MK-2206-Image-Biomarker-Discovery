@@ -1,0 +1,27 @@
+setting:
+  # binWidth: [10]
+  binCount: 32
+  interpolator: 'sitkBSpline' # This is an enumerated value, here None is not allowed
+  resampledPixelSpacing: [1,1,1] # This disables resampling, as it is interpreted as None, to enable it, specify spacing in x, y, z as [x, y , z]
+  weightingNorm: # If no value is specified, it is interpreted as None
+  # voxelArrayShift: 1200 # IBSI suggests no voxel value correction to the positive only value
+  normalize: False
+  normalizeScale: 100
+  additionalInfo: False
+  correctMask: False
+  minimumROIDimensions: 3
+imageType:
+  Original: { }
+  LoG: { 'sigma': [3] }
+  #LoG: { 'sigma': [ 1.0, 3.0, 6.0 ] }
+  # Wavelet: { }
+featureClass:
+  # redundant Compactness 1, Compactness 2 an Spherical Disproportion features are disabled by default, they can be
+  # enabled by specifying individual feature names (as is done for glcm) and including them in the list.
+  shape:
+  firstorder: # specifying an empty list has the same effect as specifying nothing.
+  glcm: # Disable SumAverage by specifying all other GLCM features available
+  glrlm: # for lists none values are allowed, in this case, all features are enabled
+  glszm:
+  gldm: # contains deprecated features, but as no individual features are specified, the deprecated features are not enabled
+  ngtdm:
